@@ -322,27 +322,48 @@
             'omega-core-nexus': 390625000 // Fixed CPS for omega core nexus
         };
 
+        // Function to format numbers with words up to decillion
+        function formatNumber(num) {
+            const suffixes = [
+                { value: 1e33, word: 'decillion' },
+                { value: 1e30, word: 'nonillion' },
+                { value: 1e27, word: 'octillion' },
+                { value: 1e24, word: 'septillion' },
+                { value: 1e21, word: 'sextillion' },
+                { value: 1e18, word: 'quintillion' },
+                { value: 1e15, word: 'quadrillion' },
+                { value: 1e12, word: 'trillion' },
+                { value: 1e9, word: 'billion' },
+                { value: 1e6, word: 'million' },
+                { value: 1e3, word: 'thousand' }
+            ];
+
+            for (let i = 0; i < suffixes.length; i++) {
+                if (num >= suffixes[i].value) {
+                    return (num / suffixes[i].value).toFixed(2) + ' ' + suffixes[i].word;
+                }
+            }
+            return num.toString();
+        }
+
         // Update building cost display function
         function updateBuildingCostDisplay() {
             for (const building in buildingCosts) {
-                const cost = Math.ceil(buildingCosts[building]); // Round up the cost
+                const cost = Math.ceil(buildingCosts[building]);
                 const count = buildingCounts[building];
                 const buildingDiv = document.getElementById(`${building}-building`);
 
-                // Show building if it has been purchased or if score is at least 50% of cost
                 if (count > 0 || score >= cost * 0.5) {
                     buildingDiv.style.display = 'block';
                 } else {
                     buildingDiv.style.display = 'none';
                 }
 
-                // Update cost and count display
-                document.getElementById(`${building}-cost`).textContent = `${building.charAt(0).toUpperCase() + building.slice(1)}: Cost: ${cost}, CPS: ${buildingCPS[building]}`;
+                document.getElementById(`${building}-cost`).textContent = `${building.charAt(0).toUpperCase() + building.slice(1)}: Cost: ${formatNumber(cost)}, CPS: ${formatNumber(buildingCPS[building])}`;
                 document.getElementById(`${building}-count`).textContent = `Count: ${count}`;
             }
 
-            // Update the tab name with the current score
-            document.title = `Score: ${score}`;
+            document.title = `Score: ${formatNumber(score)}`;
         }
 
         // Buy building function
@@ -473,11 +494,11 @@
 
         // Update stats display
         function updateStatsDisplay() {
-            document.getElementById('current-score').textContent = `Current Score: ${score}`;
-            document.getElementById('all-time-score').textContent = `All Time Score: ${allTimeScore}`;
+            document.getElementById('current-score').textContent = `Current Score: ${formatNumber(score)}`;
+            document.getElementById('all-time-score').textContent = `All Time Score: ${formatNumber(allTimeScore)}`;
             document.getElementById('start-time').textContent = `Played for: ${formatTime(elapsedTime)}`;
-            document.getElementById('current-cps').textContent = `Current CPS: ${scorePerSecond}`;
-            document.getElementById('all-time-cps').textContent = `All Time CPS: ${allTimeCPS}`;
+            document.getElementById('current-cps').textContent = `Current CPS: ${formatNumber(scorePerSecond)}`;
+            document.getElementById('all-time-cps').textContent = `All Time CPS: ${formatNumber(allTimeCPS)}`;
             document.getElementById('total-buildings').textContent = `Total Buildings Owned: ${Object.values(buildingCounts).reduce((a, b) => a + b, 0)}`;
 
             const buildingCPSStats = document.getElementById('building-cps-stats');
@@ -485,7 +506,7 @@
             for (const building in buildingCounts) {
                 const totalCPS = buildingCounts[building] * buildingCPS[building];
                 const buildingStat = document.createElement('div');
-                buildingStat.textContent = `${building.charAt(0).toUpperCase() + building.slice(1)} Total CPS: ${totalCPS}`;
+                buildingStat.textContent = `${building.charAt(0).toUpperCase() + building.slice(1)} Total CPS: ${formatNumber(totalCPS)}`;
                 buildingCPSStats.appendChild(buildingStat);
             }
         }
