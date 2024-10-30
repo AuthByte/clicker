@@ -23,7 +23,7 @@
         #building-section {
             width: 300px;
             height: 90vh;
-            overflow-y: auto;
+            overflow: hidden;
             border: 1px solid #ccc;
             padding: 10px;
             position: fixed;
@@ -33,12 +33,24 @@
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
             border-radius: 8px;
         }
+        .upgrade {
+            margin-bottom: 10px;
+            text-align: center;
+        }
+        .upgrade img {
+            width: 100px;
+            height: 100px;
+        }
+        #upgrade-section, #building-list {
+            overflow-y: auto;
+        }
         .building {
             margin-bottom: 10px;
             padding: 10px;
             border: 1px solid #ddd;
             border-radius: 5px;
             background-color: #fff;
+            position: relative;
             transition: background-color 0.3s;
         }
         .building:hover {
@@ -130,6 +142,28 @@
         .bounce {
             animation: bounceInOut 0.4s ease-in-out;
         }
+
+        .building-info {
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background-color: #fff;
+            border: 1px solid #ccc;
+            padding: 10px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            z-index: 10;
+        }
+
+        .building:hover .building-info {
+            display: block;
+        }
+
+        .building-info p {
+            margin: 0;
+            padding: 5px;
+        }
     </style>
 </head>
 <body>
@@ -142,71 +176,113 @@
     </div>
 
     <div id="building-section">
+        <h2>Upgrades</h2>
+        <div id="upgrade-section" style="height: 45vh; overflow-y: auto;">
+            <!-- Placeholder upgrade icons -->
+            <div class="upgrade">
+                <img src="https://via.placeholder.com/100" alt="Upgrade 1">
+            </div>
+            <div class="upgrade">
+                <img src="https://via.placeholder.com/100" alt="Upgrade 2">
+            </div>
+            <div class="upgrade">
+                <img src="https://via.placeholder.com/100" alt="Upgrade 3">
+            </div>
+            <div class="upgrade">
+                <img src="https://via.placeholder.com/100" alt="Upgrade 4">
+            </div>
+            <div class="upgrade">
+                <img src="https://via.placeholder.com/100" alt="Upgrade 5">
+            </div>
+            <div class="upgrade">
+                <img src="https://via.placeholder.com/100" alt="Upgrade 6">
+            </div>
+            <div class="upgrade">
+                <img src="https://via.placeholder.com/100" alt="Upgrade 7">
+            </div>
+            <div class="upgrade">
+                <img src="https://via.placeholder.com/100" alt="Upgrade 8">
+            </div>
+            <div class="upgrade">
+                <img src="https://via.placeholder.com/100" alt="Upgrade 9">
+            </div>
+            <div class="upgrade">
+                <img src="https://via.placeholder.com/100" alt="Upgrade 10">
+            </div>
+        </div>
+
         <h2>Buildings</h2>
-        <div class="building" id="clicker-building">
-            <span id="clicker-cost">Clicker: Cost: 10, CPS: 1</span>
-            <span id="clicker-count">Count: 0</span>
-            <button onclick="buyBuilding('clicker')">Buy</button>
-        </div>
-        <div class="building" id="computer-building">
-            <span id="computer-cost">Computer: Cost: 100, CPS: 10</span>
-            <span id="computer-count">Count: 0</span>
-            <button onclick="buyBuilding('computer')">Buy</button>
-        </div>
-        <div class="building" id="multiplier-building">
-            <span id="multiplier-cost">Multiplier: Cost: 500, CPS: 50</span>
-            <span id="multiplier-count">Count: 0</span>
-            <button onclick="buyBuilding('multiplier')">Buy</button>
-        </div>
-        <div class="building" id="quantum-processor-building">
-            <span id="quantum-processor-cost">Quantum Processor: Cost: 2500, CPS: 250</span>
-            <span id="quantum-processor-count">Count: 0</span>
-            <button onclick="buyBuilding('quantum-processor')">Buy</button>
-        </div>
-        <div class="building" id="neural-network-matrix-building">
-            <span id="neural-network-matrix-cost">Neural Network Matrix: Cost: 10000, CPS: 1000</span>
-            <span id="neural-network-matrix-count">Count: 0</span>
-            <button onclick="buyBuilding('neural-network-matrix')">Buy</button>
-        </div>
-        <div class="building" id="ai-core-cluster-building">
-            <span id="ai-core-cluster-cost">AI Core Cluster: Cost: 50000, CPS: 5000</span>
-            <span id="ai-core-cluster-count">Count: 0</span>
-            <button onclick="buyBuilding('ai-core-cluster')">Buy</button>
-        </div>
-        <div class="building" id="cyber-mind-complex-building">
-            <span id="cyber-mind-complex-cost">Cyber Mind Complex: Cost: 250000, CPS: 25000</span>
-            <span id="cyber-mind-complex-count">Count: 0</span>
-            <button onclick="buyBuilding('cyber-mind-complex')">Buy</button>
-        </div>
-        <div class="building" id="holocloud-array-building">
-            <span id="holocloud-array-cost">HoloCloud Array: Cost: 1250000, CPS: 125000</span>
-            <span id="holocloud-array-count">Count: 0</span>
-            <button onclick="buyBuilding('holocloud-array')">Buy</button>
-        </div>
-        <div class="building" id="dark-matter-datacenter-building">
-            <span id="dark-matter-datacenter-cost">Dark Matter Datacenter: Cost: 6250000, CPS: 625000</span>
-            <span id="dark-matter-datacenter-count">Count: 0</span>
-            <button onclick="buyBuilding('dark-matter-datacenter')">Buy</button>
-        </div>
-        <div class="building" id="singularity-engine-building">
-            <span id="singularity-engine-cost">Singularity Engine: Cost: 31250000, CPS: 3125000</span>
-            <span id="singularity-engine-count">Count: 0</span>
-            <button onclick="buyBuilding('singularity-engine')">Buy</button>
-        </div>
-        <div class="building" id="quantum-singularity-drive-building">
-            <span id="quantum-singularity-drive-cost">Quantum Singularity Drive: Cost: 156250000, CPS: 15625000</span>
-            <span id="quantum-singularity-drive-count">Count: 0</span>
-            <button onclick="buyBuilding('quantum-singularity-drive')">Buy</button>
-        </div>
-        <div class="building" id="exo-server-grid-building">
-            <span id="exo-server-grid-cost">Exo-Server Grid: Cost: 781250000, CPS: 78125000</span>
-            <span id="exo-server-grid-count">Count: 0</span>
-            <button onclick="buyBuilding('exo-server-grid')">Buy</button>
-        </div>
-        <div class="building" id="omega-core-nexus-building">
-            <span id="omega-core-nexus-cost">Omega Core Nexus: Cost: 3906250000, CPS: 390625000</span>
-            <span id="omega-core-nexus-count">Count: 0</span>
-            <button onclick="buyBuilding('omega-core-nexus')">Buy</button>
+        <div id="building-list" style="height: 45vh; overflow-y: auto;">
+            <div class="building" id="clicker-building" onmouseover="showBuildingInfo('clicker')" onmouseout="hideBuildingInfo('clicker')">
+                <span id="clicker-cost">Cost: 10</span>
+                <span id="clicker-count">Count: 0</span>
+                <div class="building-info" id="clicker-info">
+                    <p>Description: A simple clicker.</p>
+                    <p>CPS: 1</p>
+                    <p>Total CPS: 0</p>
+                    <p>All Time Score: 0</p>
+                </div>
+            </div>
+            <div class="building" id="computer-building">
+                <span id="computer-cost">Computer: Cost: 100, CPS: 10</span>
+                <span id="computer-count">Count: 0</span>
+                <button onclick="buyBuilding('computer')">Buy</button>
+            </div>
+            <div class="building" id="multiplier-building">
+                <span id="multiplier-cost">Multiplier: Cost: 500, CPS: 50</span>
+                <span id="multiplier-count">Count: 0</span>
+                <button onclick="buyBuilding('multiplier')">Buy</button>
+            </div>
+            <div class="building" id="quantum-processor-building">
+                <span id="quantum-processor-cost">Quantum Processor: Cost: 2500, CPS: 250</span>
+                <span id="quantum-processor-count">Count: 0</span>
+                <button onclick="buyBuilding('quantum-processor')">Buy</button>
+            </div>
+            <div class="building" id="neural-network-matrix-building">
+                <span id="neural-network-matrix-cost">Neural Network Matrix: Cost: 10000, CPS: 1000</span>
+                <span id="neural-network-matrix-count">Count: 0</span>
+                <button onclick="buyBuilding('neural-network-matrix')">Buy</button>
+            </div>
+            <div class="building" id="ai-core-cluster-building">
+                <span id="ai-core-cluster-cost">AI Core Cluster: Cost: 50000, CPS: 5000</span>
+                <span id="ai-core-cluster-count">Count: 0</span>
+                <button onclick="buyBuilding('ai-core-cluster')">Buy</button>
+            </div>
+            <div class="building" id="cyber-mind-complex-building">
+                <span id="cyber-mind-complex-cost">Cyber Mind Complex: Cost: 250000, CPS: 25000</span>
+                <span id="cyber-mind-complex-count">Count: 0</span>
+                <button onclick="buyBuilding('cyber-mind-complex')">Buy</button>
+            </div>
+            <div class="building" id="holocloud-array-building">
+                <span id="holocloud-array-cost">HoloCloud Array: Cost: 1250000, CPS: 125000</span>
+                <span id="holocloud-array-count">Count: 0</span>
+                <button onclick="buyBuilding('holocloud-array')">Buy</button>
+            </div>
+            <div class="building" id="dark-matter-datacenter-building">
+                <span id="dark-matter-datacenter-cost">Dark Matter Datacenter: Cost: 6250000, CPS: 625000</span>
+                <span id="dark-matter-datacenter-count">Count: 0</span>
+                <button onclick="buyBuilding('dark-matter-datacenter')">Buy</button>
+            </div>
+            <div class="building" id="singularity-engine-building">
+                <span id="singularity-engine-cost">Singularity Engine: Cost: 31250000, CPS: 3125000</span>
+                <span id="singularity-engine-count">Count: 0</span>
+                <button onclick="buyBuilding('singularity-engine')">Buy</button>
+            </div>
+            <div class="building" id="quantum-singularity-drive-building">
+                <span id="quantum-singularity-drive-cost">Quantum Singularity Drive: Cost: 156250000, CPS: 15625000</span>
+                <span id="quantum-singularity-drive-count">Count: 0</span>
+                <button onclick="buyBuilding('quantum-singularity-drive')">Buy</button>
+            </div>
+            <div class="building" id="exo-server-grid-building">
+                <span id="exo-server-grid-cost">Exo-Server Grid: Cost: 781250000, CPS: 78125000</span>
+                <span id="exo-server-grid-count">Count: 0</span>
+                <button onclick="buyBuilding('exo-server-grid')">Buy</button>
+            </div>
+            <div class="building" id="omega-core-nexus-building">
+                <span id="omega-core-nexus-cost">Omega Core Nexus: Cost: 3906250000, CPS: 390625000</span>
+                <span id="omega-core-nexus-count">Count: 0</span>
+                <button onclick="buyBuilding('omega-core-nexus')">Buy</button>
+            </div>
         </div>
     </div>
 
@@ -275,8 +351,8 @@
             'neural-network-matrix': 10000,
             'ai-core-cluster': 50000,
             'cyber-mind-complex': 250000,
-            'holocloud-array': 1250000,
-            'dark-matter-datacenter': 6250000,
+            'holocloud-array': 1000000,
+            'dark-matter-datacenter': 2500000,
             'singularity-engine': 31250000,
             'quantum-singularity-drive': 156250000,
             'exo-server-grid': 781250000,
@@ -314,8 +390,8 @@
             'neural-network-matrix': 1000, // Fixed CPS for neural network matrix
             'ai-core-cluster': 5000, // Fixed CPS for AI core cluster
             'cyber-mind-complex': 25000, // Fixed CPS for cyber mind complex
-            'holocloud-array': 125000, // Fixed CPS for holocloud array
-            'dark-matter-datacenter': 625000, // Fixed CPS for dark matter datacenter
+            'holocloud-array': 100000, // Fixed CPS for holocloud array
+            'dark-matter-datacenter': 250000, // Fixed CPS for dark matter datacenter
             'singularity-engine': 3125000, // Fixed CPS for singularity engine
             'quantum-singularity-drive': 15625000, // Fixed CPS for quantum singularity drive
             'exo-server-grid': 78125000, // Fixed CPS for exo-server grid
@@ -359,6 +435,22 @@
             return num.toString();
         }
 
+        const buildingSeen = {
+            clicker: false,
+            computer: false,
+            multiplier: false,
+            'quantum-processor': false,
+            'neural-network-matrix': false,
+            'ai-core-cluster': false,
+            'cyber-mind-complex': false,
+            'holocloud-array': false,
+            'dark-matter-datacenter': false,
+            'singularity-engine': false,
+            'quantum-singularity-drive': false,
+            'exo-server-grid': false,
+            'omega-core-nexus': false
+        };
+
         // Update building cost display function
         function updateBuildingCostDisplay() {
             for (const building in buildingCosts) {
@@ -366,8 +458,10 @@
                 const count = buildingCounts[building];
                 const buildingDiv = document.getElementById(`${building}-building`);
 
-                if (count > 0 || score >= cost * 0.5) {
+                // Check if the building should be visible
+                if (count > 0 || score >= cost * 0.5 || buildingSeen[building]) {
                     buildingDiv.style.display = 'block';
+                    buildingSeen[building] = true; // Mark as seen
                 } else {
                     buildingDiv.style.display = 'none';
                 }
@@ -535,13 +629,19 @@
             updateStatsDisplay();
         });
 
+        // Update score display
+        function updateScoreDisplay() {
+            scoreDisplay.textContent = `Score: ${formatNumber(score)}`;
+            scorePerSecondDisplay.textContent = `Score per Second: ${formatNumber(scorePerSecond)}`;
+        }
+
         // Increment score and update stats every second
         setInterval(() => {
             score += scorePerSecond;
             allTimeScore += scorePerSecond;
             elapsedTime = Math.floor((new Date() - startTime) / 1000);
-            scoreDisplay.textContent = `Score: ${score}`;
-            document.title = `Score: ${score}`;
+            updateScoreDisplay();
+            document.title = `Score: ${formatNumber(score)}`;
             updateStatsDisplay();
         }, 1000);
 
@@ -598,6 +698,68 @@
             }
 
             scoreDisplay.textContent = `Score: ${score}`;
+        }
+
+        const buildingDescriptions = {
+            clicker: "A simple clicker that generates a small amount of score with each click.",
+            computer: "A basic computer that automates score generation at a steady pace.",
+            multiplier: "Enhances your score multiplier, boosting your overall score efficiency.",
+            'quantum-processor': "A cutting-edge processor that significantly increases your score output.",
+            'neural-network-matrix': "An advanced neural network that learns and optimizes score production.",
+            'ai-core-cluster': "A cluster of AI cores working in harmony to maximize score generation.",
+            'cyber-mind-complex': "A complex of cybernetic minds that exponentially boosts your score.",
+            'holocloud-array': "A vast array of holographic clouds that process scores at lightning speed.",
+            'dark-matter-datacenter': "A datacenter harnessing dark matter to produce astronomical scores.",
+            'singularity-engine': "An engine on the brink of singularity, pushing score limits to the extreme.",
+            'quantum-singularity-drive': "A drive that manipulates quantum singularities for unparalleled score production.",
+            'exo-server-grid': "A grid of exo-servers that transcends traditional computing for massive scores.",
+            'omega-core-nexus': "The ultimate nexus of omega cores, achieving the pinnacle of score generation."
+        };
+
+        const buildingAllTimeScores = {
+            clicker: 0,
+            computer: 0,
+            multiplier: 0,
+            // Initialize for other buildings
+        };
+
+        function showBuildingInfo(type) {
+            const infoDiv = document.getElementById(`${type}-info`);
+            const cps = buildingCPS[type];
+            const totalCPS = buildingCounts[type] * cps;
+            const allTimeScore = buildingAllTimeScores[type];
+
+            infoDiv.innerHTML = `
+                <p>Description: ${buildingDescriptions[type]}</p>
+                <p>CPS: ${cps}</p>
+                <p>Total CPS: ${totalCPS}</p>
+                <p>All Time Score: ${allTimeScore}</p>
+            `;
+        }
+
+        function hideBuildingInfo(type) {
+            const infoDiv = document.getElementById(`${type}-info`);
+            infoDiv.innerHTML = '';
+        }
+
+        // Update all-time score when buying a building
+        function buyBuilding(type) {
+            let cost = Math.ceil(buildingCosts[type]);
+
+            if (score >= cost) {
+                score -= cost;
+                scoreDisplay.textContent = `Score: ${formatNumber(score)}`;
+
+                buildingCounts[type]++;
+                scorePerSecond += buildingCPS[type];
+                scorePerSecondDisplay.textContent = `Score per Second: ${formatNumber(scorePerSecond)}`;
+
+                buildingCosts[type] = Math.ceil(buildingCosts[type] * 1.1);
+
+                buildingAllTimeScores[type] += buildingCPS[type];
+
+                updateBuildingCostDisplay();
+            }
         }
     </script>
 </body>
