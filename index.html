@@ -216,17 +216,12 @@
             <div class="building" id="clicker-building" onmouseover="showBuildingInfo('clicker')" onmouseout="hideBuildingInfo('clicker')">
                 <span id="clicker-cost">Cost: 10</span>
                 <span id="clicker-count">Count: 0</span>
-                <div class="building-info" id="clicker-info">
-                    <p>Description: A simple clicker.</p>
-                    <p>CPS: 1</p>
-                    <p>Total CPS: 0</p>
-                    <p>All Time Score: 0</p>
-                </div>
+                <div class="building-info" id="clicker-info"></div>
             </div>
-            <div class="building" id="computer-building">
-                <span id="computer-cost">Computer: Cost: 100, CPS: 10</span>
+            <div class="building" id="computer-building" onmouseover="showBuildingInfo('computer')" onmouseout="hideBuildingInfo('computer')">
+                <span id="computer-cost">Cost: 111</span>
                 <span id="computer-count">Count: 0</span>
-                <button onclick="buyBuilding('computer')">Buy</button>
+                <div class="building-info" id="computer-info"></div>
             </div>
             <div class="building" id="multiplier-building">
                 <span id="multiplier-cost">Multiplier: Cost: 500, CPS: 50</span>
@@ -735,11 +730,12 @@
                 <p>Total CPS: ${totalCPS}</p>
                 <p>All Time Score: ${allTimeScore}</p>
             `;
+            infoDiv.style.display = 'block';
         }
 
         function hideBuildingInfo(type) {
             const infoDiv = document.getElementById(`${type}-info`);
-            infoDiv.innerHTML = '';
+            infoDiv.style.display = 'none';
         }
 
         // Update all-time score when buying a building
