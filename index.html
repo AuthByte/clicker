@@ -1,0 +1,481 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Untitled Clicker</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f0f0f0;
+        }
+        #main-content {
+            text-align: center;
+            margin: 0 auto;
+            z-index: 1;
+        }
+        #building-section {
+            width: 300px;
+            height: 90vh;
+            overflow-y: auto;
+            border: 1px solid #ccc;
+            padding: 10px;
+            position: fixed;
+            right: 20px;
+            top: 20px;
+            background-color: #f9f9f9;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+        }
+        .building {
+            margin-bottom: 10px;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            background-color: #fff;
+            transition: background-color 0.3s;
+        }
+        .building:hover {
+            background-color: #f0f0f0;
+        }
+        button {
+            cursor: pointer;
+        }
+        .toggle-button {
+            position: fixed;
+            top: 50%;
+            transform: translateY(-50%);
+            background-color: #ccc;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            padding: 5px;
+            z-index: 1000;
+        }
+        #building-toggle {
+            right: 0;
+        }
+        #gambling-toggle {
+            left: 0;
+        }
+        #gambling-section {
+            width: 300px;
+            height: auto;
+            overflow-y: auto;
+            border: 1px solid #ccc;
+            padding: 20px;
+            position: fixed;
+            left: 20px;
+            top: 20px;
+            background-color: #f9f9f9;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            display: none; /* Initially hidden */
+        }
+        .gamble-option {
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        .gamble-option button {
+            width: 100%;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            background-color: #ccc;
+            transition: background-color 0.3s;
+        }
+        .gamble-option button:hover {
+            background-color: #bbb;
+        }
+        .gamble-option:nth-child(1) button {
+            background-color: #ddd;
+        }
+        .gamble-option:nth-child(2) button {
+            background-color: #ccc;
+        }
+        .gamble-option:nth-child(3) button {
+            background-color: #bbb;
+        }
+        .gamble-option:nth-child(4) button {
+            background-color: #aaa;
+        }
+        .gamble-option:nth-child(5) button {
+            background-color: #999;
+        }
+    </style>
+</head>
+<body>
+    <div id="main-content">
+        <h1>Untitled Clicker v1 alpha</h1>
+        <img id="clicker" src="https://via.placeholder.com/100" alt="Clicker">
+        <div id="score">Score: 0</div>
+        <div id="scorePerSecond">Score per Second: 0</div>
+        <div id="perClick">Score per Click: 1</div>
+    </div>
+
+    <div id="building-section">
+        <h2>Buildings</h2>
+        <div class="building" id="clicker-building">
+            <span id="clicker-cost">Clicker: Cost: 10, CPS: 1</span>
+            <span id="clicker-count">Count: 0</span>
+            <button onclick="buyBuilding('clicker')">Buy</button>
+        </div>
+        <div class="building" id="computer-building">
+            <span id="computer-cost">Computer: Cost: 100, CPS: 10</span>
+            <span id="computer-count">Count: 0</span>
+            <button onclick="buyBuilding('computer')">Buy</button>
+        </div>
+        <div class="building" id="multiplier-building">
+            <span id="multiplier-cost">Multiplier: Cost: 500, CPS: 50</span>
+            <span id="multiplier-count">Count: 0</span>
+            <button onclick="buyBuilding('multiplier')">Buy</button>
+        </div>
+        <div class="building" id="quantum-processor-building">
+            <span id="quantum-processor-cost">Quantum Processor: Cost: 2500, CPS: 250</span>
+            <span id="quantum-processor-count">Count: 0</span>
+            <button onclick="buyBuilding('quantum-processor')">Buy</button>
+        </div>
+        <div class="building" id="neural-network-matrix-building">
+            <span id="neural-network-matrix-cost">Neural Network Matrix: Cost: 10000, CPS: 1000</span>
+            <span id="neural-network-matrix-count">Count: 0</span>
+            <button onclick="buyBuilding('neural-network-matrix')">Buy</button>
+        </div>
+        <div class="building" id="ai-core-cluster-building">
+            <span id="ai-core-cluster-cost">AI Core Cluster: Cost: 50000, CPS: 5000</span>
+            <span id="ai-core-cluster-count">Count: 0</span>
+            <button onclick="buyBuilding('ai-core-cluster')">Buy</button>
+        </div>
+        <div class="building" id="cyber-mind-complex-building">
+            <span id="cyber-mind-complex-cost">Cyber Mind Complex: Cost: 250000, CPS: 25000</span>
+            <span id="cyber-mind-complex-count">Count: 0</span>
+            <button onclick="buyBuilding('cyber-mind-complex')">Buy</button>
+        </div>
+        <div class="building" id="holocloud-array-building">
+            <span id="holocloud-array-cost">HoloCloud Array: Cost: 1250000, CPS: 125000</span>
+            <span id="holocloud-array-count">Count: 0</span>
+            <button onclick="buyBuilding('holocloud-array')">Buy</button>
+        </div>
+        <div class="building" id="dark-matter-datacenter-building">
+            <span id="dark-matter-datacenter-cost">Dark Matter Datacenter: Cost: 6250000, CPS: 625000</span>
+            <span id="dark-matter-datacenter-count">Count: 0</span>
+            <button onclick="buyBuilding('dark-matter-datacenter')">Buy</button>
+        </div>
+        <div class="building" id="singularity-engine-building">
+            <span id="singularity-engine-cost">Singularity Engine: Cost: 31250000, CPS: 3125000</span>
+            <span id="singularity-engine-count">Count: 0</span>
+            <button onclick="buyBuilding('singularity-engine')">Buy</button>
+        </div>
+        <div class="building" id="quantum-singularity-drive-building">
+            <span id="quantum-singularity-drive-cost">Quantum Singularity Drive: Cost: 156250000, CPS: 15625000</span>
+            <span id="quantum-singularity-drive-count">Count: 0</span>
+            <button onclick="buyBuilding('quantum-singularity-drive')">Buy</button>
+        </div>
+        <div class="building" id="exo-server-grid-building">
+            <span id="exo-server-grid-cost">Exo-Server Grid: Cost: 781250000, CPS: 78125000</span>
+            <span id="exo-server-grid-count">Count: 0</span>
+            <button onclick="buyBuilding('exo-server-grid')">Buy</button>
+        </div>
+        <div class="building" id="omega-core-nexus-building">
+            <span id="omega-core-nexus-cost">Omega Core Nexus: Cost: 3906250000, CPS: 390625000</span>
+            <span id="omega-core-nexus-count">Count: 0</span>
+            <button onclick="buyBuilding('omega-core-nexus')">Buy</button>
+        </div>
+    </div>
+
+    <div id="notification" style="display: none; position: fixed; bottom: 20px; right: 20px; background-color: #4CAF50; color: white; padding: 10px; border-radius: 5px; z-index: 1000;">
+        Game Saved
+    </div>
+
+    <button id="wipe-save" style="position: fixed; bottom: 20px; left: 20px; background-color: red; color: white; padding: 10px; border: none; border-radius: 5px; cursor: pointer;">
+        Wipe Save
+    </button>
+
+    <button id="building-toggle" class="toggle-button">⇦</button>
+    <button id="gambling-toggle" class="toggle-button">⇨</button>
+
+    <div id="gambling-section">
+        <h2>Nut Gambling</h2>
+        <div id="exact-nuts">Exact Nuts: <span id="score-display">0</span></div>
+        <hr>
+        <div class="gamble-option">
+            <div>25% chance to get 2x</div>
+            <button onclick="gamble(2, 25)">Gamble</button>
+        </div>
+        <div class="gamble-option">
+            <div>10% chance to get 5x</div>
+            <button onclick="gamble(5, 10)">Gamble</button>
+        </div>
+        <div class="gamble-option">
+            <div>5% chance to get 10x</div>
+            <button onclick="gamble(10, 5)">Gamble</button>
+        </div>
+        <div class="gamble-option">
+            <div>2.5% chance to get 25x</div>
+            <button onclick="gamble(25, 2.5)">Gamble</button>
+        </div>
+        <div class="gamble-option">
+            <div>1% chance to get 50x</div>
+            <button onclick="gamble(50, 1)">Gamble</button>
+        </div>
+    </div>
+
+    <script>
+        let score = 0;
+        let scorePerSecond = 0;
+        let scorePerClick = 1;
+
+        const buildingCosts = {
+            clicker: 10,
+            computer: 100,
+            multiplier: 500,
+            'quantum-processor': 2500,
+            'neural-network-matrix': 10000,
+            'ai-core-cluster': 50000,
+            'cyber-mind-complex': 250000,
+            'holocloud-array': 1250000,
+            'dark-matter-datacenter': 6250000,
+            'singularity-engine': 31250000,
+            'quantum-singularity-drive': 156250000,
+            'exo-server-grid': 781250000,
+            'omega-core-nexus': 3906250000
+        };
+
+        const buildingCounts = {
+            clicker: 0,
+            computer: 0,
+            multiplier: 0,
+            'quantum-processor': 0,
+            'neural-network-matrix': 0,
+            'ai-core-cluster': 0,
+            'cyber-mind-complex': 0,
+            'holocloud-array': 0,
+            'dark-matter-datacenter': 0,
+            'singularity-engine': 0,
+            'quantum-singularity-drive': 0,
+            'exo-server-grid': 0,
+            'omega-core-nexus': 0
+        };
+
+        const clicker = document.getElementById('clicker');
+        const scoreDisplay = document.getElementById('score');
+        const scorePerSecondDisplay = document.getElementById('scorePerSecond');
+        const perClickDisplay = document.getElementById('perClick');
+        const notification = document.getElementById('notification');
+
+        // Define fixed CPS values for each building type
+        const buildingCPS = {
+            clicker: 1, // Fixed CPS for clicker
+            computer: 10, // Fixed CPS for computer
+            multiplier: 50, // Fixed CPS for multiplier
+            'quantum-processor': 250, // Fixed CPS for quantum processor
+            'neural-network-matrix': 1000, // Fixed CPS for neural network matrix
+            'ai-core-cluster': 5000, // Fixed CPS for AI core cluster
+            'cyber-mind-complex': 25000, // Fixed CPS for cyber mind complex
+            'holocloud-array': 125000, // Fixed CPS for holocloud array
+            'dark-matter-datacenter': 625000, // Fixed CPS for dark matter datacenter
+            'singularity-engine': 3125000, // Fixed CPS for singularity engine
+            'quantum-singularity-drive': 15625000, // Fixed CPS for quantum singularity drive
+            'exo-server-grid': 78125000, // Fixed CPS for exo-server grid
+            'omega-core-nexus': 390625000 // Fixed CPS for omega core nexus
+        };
+
+        // Update building cost display function
+        function updateBuildingCostDisplay() {
+            for (const building in buildingCosts) {
+                const cost = Math.ceil(buildingCosts[building]); // Round up the cost
+                const count = buildingCounts[building];
+                const buildingDiv = document.getElementById(`${building}-building`);
+
+                // Show building if it has been purchased or if score is at least 50% of cost
+                if (count > 0 || score >= cost * 0.5) {
+                    buildingDiv.style.display = 'block';
+                } else {
+                    buildingDiv.style.display = 'none';
+                }
+
+                // Update cost and count display
+                document.getElementById(`${building}-cost`).textContent = `${building.charAt(0).toUpperCase() + building.slice(1)}: Cost: ${cost}, CPS: ${buildingCPS[building]}`;
+                document.getElementById(`${building}-count`).textContent = `Count: ${count}`;
+            }
+
+            // Update the tab name with the current score
+            document.title = `Score: ${score}`;
+        }
+
+        // Buy building function
+        function buyBuilding(type) {
+            let cost = Math.ceil(buildingCosts[type]); // Round up the cost
+
+            // Check if the player can afford the building
+            if (score >= cost) {
+                score -= cost; // Deduct cost from score
+                scoreDisplay.textContent = `Score: ${score}`;
+
+                // Increase building count
+                buildingCounts[type]++;
+                
+                // Increase score per second by the building's fixed CPS
+                scorePerSecond += buildingCPS[type]; 
+                
+                // Update the score display for CPS
+                scorePerSecondDisplay.textContent = `Score per Second: ${scorePerSecond}`;
+
+                // Increase cost of the specific building by 10%
+                buildingCosts[type] = Math.ceil(buildingCosts[type] * 1.1); // Round up the new cost
+                
+                // Update the display after purchase
+                updateBuildingCostDisplay();
+            }
+        }
+
+        clicker.addEventListener('click', () => {
+            score += scorePerClick;
+            scoreDisplay.textContent = `Score: ${score}`;
+            updateBuildingCostDisplay(); // Update building visibility after score change
+        });
+
+        // Wipe save functionality
+        document.getElementById('wipe-save').addEventListener('click', () => {
+            if (confirm("Are you sure you want to wipe your save? This action cannot be undone.")) {
+                // Clear saved game data
+                localStorage.removeItem('clickerGame');
+
+                // Reset game state
+                score = 0;
+                scorePerSecond = 0;
+                for (const building in buildingCounts) {
+                    buildingCounts[building] = 0; // Reset counts
+                }
+
+                // Reset building costs
+                for (const building in buildingCosts) {
+                    buildingCosts[building] = buildingCosts[building] / 1.1; // Reset costs to original
+                }
+
+                // Update the display
+                scoreDisplay.textContent = `Score: ${score}`;
+                scorePerSecondDisplay.textContent = `Score per Second: ${scorePerSecond}`;
+                perClickDisplay.textContent = `Score per Click: ${scorePerClick}`;
+                
+                // Update building cost display
+                updateBuildingCostDisplay();
+
+                // Show notification
+                showNotification("Game Save Wiped");
+            }
+        });
+
+        function showNotification(message) {
+            notification.textContent = message;
+            notification.style.display = 'block';
+            setTimeout(() => {
+                notification.style.display = 'none';
+            }, 3000); // Hide after 3 seconds
+        }
+
+        // Load game on startup
+        function loadGame() {
+            const savedGame = localStorage.getItem('clickerGame');
+            if (savedGame) {
+                const gameData = JSON.parse(savedGame);
+                score = gameData.score;
+                scorePerSecond = gameData.scorePerSecond; // Load saved CPS
+                Object.assign(buildingCounts, gameData.buildingCounts);
+                Object.assign(buildingCosts, gameData.buildingCosts);
+                
+                // Calculate total CPS based on loaded building counts
+                scorePerSecond = 0; // Reset CPS
+                for (const building in buildingCounts) {
+                    scorePerSecond += buildingCounts[building] * buildingCPS[building]; // Calculate total CPS
+                }
+
+                // Update the display
+                scoreDisplay.textContent = `Score: ${score}`;
+                scorePerSecondDisplay.textContent = `Score per Second: ${scorePerSecond}`;
+                updateBuildingCostDisplay();
+            }
+        }
+
+        // Increment score every second based on CPS
+        setInterval(() => {
+            score += scorePerSecond; // Increment score by CPS
+            scoreDisplay.textContent = `Score: ${score}`; // Update the score display
+            document.title = `Score: ${score}`; // Update the tab name with the current score
+        }, 1000); // Update every second
+
+        // Save game every minute
+        setInterval(() => {
+            const gameData = {
+                score: score,
+                scorePerSecond: scorePerSecond,
+                buildingCosts: buildingCosts,
+                buildingCounts: buildingCounts
+            };
+            localStorage.setItem('clickerGame', JSON.stringify(gameData));
+            showNotification("Game Saved");
+        }, 60000);
+
+        // Load game on startup
+        loadGame();
+
+        // Function to display score every 5 seconds
+        setInterval(() => {
+            console.log(`Current Score: ${score}`); // Log the score to the console
+            scoreDisplay.textContent = `Score: ${score}`; // Update the score display
+        }, 2500);
+
+        // Toggle visibility of building section
+        document.getElementById('building-toggle').addEventListener('click', () => {
+            const buildingSection = document.getElementById('building-section');
+            if (buildingSection.style.display === 'none') {
+                buildingSection.style.display = 'block';
+                document.getElementById('building-toggle').textContent = '⇦';
+            } else {
+                buildingSection.style.display = 'none';
+                document.getElementById('building-toggle').textContent = '⇨';
+            }
+        });
+
+        // Toggle visibility of gambling section
+        document.getElementById('gambling-toggle').addEventListener('click', () => {
+            const gamblingSection = document.getElementById('gambling-section');
+            if (gamblingSection.style.display === 'none') {
+                gamblingSection.style.display = 'block';
+                document.getElementById('gambling-toggle').textContent = '⇨';
+            } else {
+                gamblingSection.style.display = 'none';
+                document.getElementById('gambling-toggle').textContent = '⇦';
+            }
+        });
+
+        // Gambling function
+        function gamble(multiplier, chance) {
+            const betAmount = parseInt(prompt(`Enter your bet amount (Score: ${score})`), 10);
+            if (isNaN(betAmount) || betAmount <= 0 || betAmount > score) {
+                alert("Invalid bet amount.");
+                return;
+            }
+
+            const random = Math.random() * 100;
+
+            if (random < chance) {
+                const winnings = betAmount * multiplier;
+                score += winnings;
+                alert(`W you won ${winnings} amount of score`);
+            } else {
+                score -= betAmount;
+                alert(`L you just lost ${betAmount} score`);
+            }
+
+            scoreDisplay.textContent = `Score: ${score}`;
+        }
+    </script>
+</body>
+</html>
