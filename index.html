@@ -122,8 +122,8 @@
             background-color: #999;
         }
         #clicker {
-            max-width: 100%;
-            max-height: 500px; /* Adjust the height as needed */
+            max-width: 250px;
+            max-height: 250px; /* Adjust the height as needed */
             width: auto;
             height: auto;
             cursor: pointer;
@@ -146,14 +146,15 @@
         .building-info {
             display: none;
             position: absolute;
-            top: 100%;
-            left: 0;
+            top: 0;
+            left: 100%;
             background-color: #fff;
             border: 1px solid #ccc;
             padding: 10px;
             border-radius: 5px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
             z-index: 10;
+            width: 200px; /* Adjust width as needed */
         }
 
         .building:hover .building-info {
@@ -169,11 +170,28 @@
             height: 45vh; /* Adjust height as needed */
             overflow-y: auto;
         }
+
+        #upgrade-section {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px; /* Space between upgrades */
+        }
+
+        .upgrade {
+            flex: 0 0 auto; /* Prevents shrinking */
+        }
+
+        .upgrade img {
+            width: 50px;
+            height: 50px;
+            display: block;
+        }
     </style>
 </head>
 <body>
     <div id="main-content">
         <h1>Untitled Clicker v1 alpha</h1>
+        <h2 id="user-id-display"></h2>
         <img id="clicker" src="istockphoto-1081630308-612x612.jpg" alt="Clicker">
         <div id="score">Score: 0</div>
         <div id="scorePerSecond">Score per Second: 0</div>
@@ -219,13 +237,13 @@
         <h2>Buildings</h2>
         <div id="building-list" style="height: 45vh; overflow-y: auto;">
             <div class="building" id="clicker-building" onclick="buyBuilding('clicker')" onmouseover="showBuildingInfo('clicker')" onmouseout="hideBuildingInfo('clicker')">
-                <span id="clicker-cost">Cost: 10</span>
-                <span id="clicker-count">Count: 0</span>
+                <span id="clicker-cost">10 score</span>
+                <span id="clicker-count" style="font-size: larger;">1</span>
                 <div class="building-info" id="clicker-info"></div>
             </div>
             <div class="building" id="computer-building" onclick="buyBuilding('computer')" onmouseover="showBuildingInfo('computer')" onmouseout="hideBuildingInfo('computer')">
-                <span id="computer-cost">Cost: 111</span>
-                <span id="computer-count">Count: 0</span>
+                <span id="computer-cost">111 score</span>
+                <span id="computer-count" style="font-size: larger;">0</span>
                 <div class="building-info" id="computer-info"></div>
             </div>
             <div class="building" id="multiplier-building" onclick="buyBuilding('multiplier')" onmouseover="showBuildingInfo('multiplier')" onmouseout="hideBuildingInfo('multiplier')">
@@ -336,6 +354,15 @@
         <div id="all-time-cps">All Time CPS: 0</div>
         <div id="total-buildings">Total Buildings Owned: 0</div>
         <div id="building-cps-stats"></div>
+    </div>
+
+    <button id="leaderboard-toggle" style="position: fixed; bottom: 20px; left: 180px; background-color: #ccc; color: black; padding: 10px; border: none; border-radius: 5px; cursor: pointer;">
+        Leaderboard
+    </button>
+
+    <div id="leaderboard-section" style="display: none; position: fixed; bottom: 60px; left: 20px; width: 300px; height: 300px; overflow-y: auto; background-color: #f9f9f9; border: 1px solid #ccc; padding: 10px; border-radius: 8px; box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);">
+        <h2>Leaderboard</h2>
+        <ol id="leaderboard-list"></ol>
     </div>
 
     <script>
@@ -725,7 +752,16 @@
             clicker: 0,
             computer: 0,
             multiplier: 0,
-            // Initialize for other buildings
+            'quantum-processor': 0,
+            'neural-network-matrix': 0,
+            'ai-core-cluster': 0,
+            'cyber-mind-complex': 0,
+            'holocloud-array': 0,
+            'dark-matter-datacenter': 0,
+            'singularity-engine': 0,
+            'quantum-singularity-drive': 0,
+            'exo-server-grid': 0,
+            'omega-core-nexus': 0
         };
 
         function showBuildingInfo(type) {
@@ -762,7 +798,7 @@
 
                 buildingCosts[type] = Math.ceil(buildingCosts[type] * 1.1);
 
-                buildingAllTimeScores[type] += buildingCPS[type];
+                buildingAllTimeScores[type] += buildingCPS[type] * buildingCounts[type];
 
                 updateScoreDisplay(); // Ensure score is formatted
                 updateBuildingCostDisplay();
