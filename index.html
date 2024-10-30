@@ -164,6 +164,11 @@
             margin: 0;
             padding: 5px;
         }
+
+        #building-list {
+            height: 45vh; /* Adjust height as needed */
+            overflow-y: auto;
+        }
     </style>
 </head>
 <body>
@@ -213,12 +218,12 @@
 
         <h2>Buildings</h2>
         <div id="building-list" style="height: 45vh; overflow-y: auto;">
-            <div class="building" id="clicker-building" onmouseover="showBuildingInfo('clicker')" onmouseout="hideBuildingInfo('clicker')">
+            <div class="building" id="clicker-building" onclick="buyBuilding('clicker')" onmouseover="showBuildingInfo('clicker')" onmouseout="hideBuildingInfo('clicker')">
                 <span id="clicker-cost">Cost: 10</span>
                 <span id="clicker-count">Count: 0</span>
                 <div class="building-info" id="clicker-info"></div>
             </div>
-            <div class="building" id="computer-building" onmouseover="showBuildingInfo('computer')" onmouseout="hideBuildingInfo('computer')">
+            <div class="building" id="computer-building" onclick="buyBuilding('computer')" onmouseover="showBuildingInfo('computer')" onmouseout="hideBuildingInfo('computer')">
                 <span id="computer-cost">Cost: 111</span>
                 <span id="computer-count">Count: 0</span>
                 <div class="building-info" id="computer-info"></div>
@@ -494,12 +499,17 @@
             }
         }
 
+        function updateScoreDisplay() {
+            scoreDisplay.textContent = `Score: ${formatNumber(score)}`;
+            scorePerSecondDisplay.textContent = `Score per Second: ${formatNumber(scorePerSecond)}`;
+        }
+
         clicker.addEventListener('click', () => {
             clicker.classList.remove('bounce');
             void clicker.offsetWidth; // Trigger reflow to restart animation
             clicker.classList.add('bounce');
             score += scorePerClick;
-            scoreDisplay.textContent = `Score: ${score}`;
+            updateScoreDisplay(); // Ensure score is formatted
             updateBuildingCostDisplay(); // Update building visibility after score change
         });
 
@@ -754,6 +764,7 @@
 
                 buildingAllTimeScores[type] += buildingCPS[type];
 
+                updateScoreDisplay(); // Ensure score is formatted
                 updateBuildingCostDisplay();
             }
         }
