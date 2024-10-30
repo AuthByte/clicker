@@ -237,8 +237,8 @@
         <h2>Buildings</h2>
         <div id="building-list" style="height: 45vh; overflow-y: auto;">
             <div class="building" id="clicker-building" onclick="buyBuilding('clicker')" onmouseover="showBuildingInfo('clicker')" onmouseout="hideBuildingInfo('clicker')">
-                <span id="clicker-cost">10 score</span>
-                <span id="clicker-count" style="font-size: larger;">1</span>
+                <span id="clicker-cost">15 score</span>
+                <span id="clicker-count" style="font-size: larger;">3</span>
                 <div class="building-info" id="clicker-info"></div>
             </div>
             <div class="building" id="computer-building" onclick="buyBuilding('computer')" onmouseover="showBuildingInfo('computer')" onmouseout="hideBuildingInfo('computer')">
@@ -804,6 +804,45 @@
                 updateBuildingCostDisplay();
             }
         }
+
+        let userId = localStorage.getItem('userId');
+
+        if (!userId) {
+            userId = prompt("Enter a unique 3-digit User ID:");
+            while (!userId || userId.length !== 3 || isNaN(userId) || localStorage.getItem(`user_${userId}`)) {
+                userId = prompt("Invalid or already taken. Enter a unique 3-digit User ID:");
+            }
+            localStorage.setItem('userId', userId);
+            localStorage.setItem(`user_${userId}`, JSON.stringify({ score: 0 }));
+        }
+
+        document.getElementById('user-id-display').textContent = `User ${userId}'s Factory`;
+
+        function updateLeaderboard() {
+            const leaderboardList = document.getElementById('leaderboard-list');
+            leaderboardList.innerHTML = '';
+
+            const users = [];
+            for (let key in localStorage) {
+                if (key.startsWith('user_')) {
+                    const data = JSON.parse(localStorage.getItem(key));
+                    users.push({ id: key.split('_')[1], score: data.score });
+                }
+            }
+
+            users.sort((a, b) => b.score - a.score);
+
+            users.slice(0, 10).forEach((user, index) => {
+                const li = document.createElement('li');
+                li.textContent = `${index + 1}. User ${user.id}`;
+                leaderboardList.appendChild(li);
+            });
+        }
+
+        document.getElementById('leaderboard-toggle').addEventListener('click', () => {
+            const leaderboardSection = document.getElementById('leaderboard-section');
+            leaderboardSection.style.display = leaderboardSection.style.display === 'none' ? 'block' : 'none';
+        });
     </script>
 </body>
 </html>
