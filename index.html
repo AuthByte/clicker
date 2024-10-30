@@ -322,7 +322,7 @@
             'omega-core-nexus': 390625000 // Fixed CPS for omega core nexus
         };
 
-        // Function to format numbers with words up to decillion
+        // Function to format numbers with abbreviations and words
         function formatNumber(num) {
             const suffixes = [
                 { value: 1e33, word: 'decillion' },
@@ -332,10 +332,7 @@
                 { value: 1e21, word: 'sextillion' },
                 { value: 1e18, word: 'quintillion' },
                 { value: 1e15, word: 'quadrillion' },
-                { value: 1e12, word: 'trillion' },
-                { value: 1e9, word: 'billion' },
-                { value: 1e6, word: 'million' },
-                { value: 1e3, word: 'thousand' }
+                { value: 1e12, word: 'trillion' }
             ];
 
             for (let i = 0; i < suffixes.length; i++) {
@@ -343,6 +340,22 @@
                     return (num / suffixes[i].value).toFixed(2) + ' ' + suffixes[i].word;
                 }
             }
+
+            const abbreviations = [
+                { value: 1e9, symbol: 'b' },
+                { value: 1e6, symbol: 'm' },
+                { value: 1e3, symbol: 'k' }
+            ];
+
+            for (let i = 0; i < abbreviations.length; i++) {
+                if (num >= abbreviations[i].value) {
+                    const formatted = (num / abbreviations[i].value).toFixed(2);
+                    return formatted.endsWith('.00') ? 
+                        formatted.slice(0, -3) + abbreviations[i].symbol : 
+                        formatted + abbreviations[i].symbol;
+                }
+            }
+
             return num.toString();
         }
 
