@@ -45,13 +45,12 @@
             overflow-y: auto;
         }
         .building {
+            position: relative;
             margin-bottom: 10px;
             padding: 10px;
             border: 1px solid #ddd;
             border-radius: 5px;
             background-color: #fff;
-            position: relative;
-            transition: background-color 0.3s;
             cursor: pointer;
         }
         .building:hover {
@@ -147,7 +146,7 @@
         .building-info {
             display: none;
             position: absolute;
-            left: calc(100% + 10px);
+            left: 100%;
             top: 50%;
             transform: translateY(-50%);
             background-color: rgba(0, 0, 0, 0.8);
@@ -205,7 +204,7 @@
         .building-info {
             display: none;
             position: absolute;
-            left: calc(100% + 10px);
+            left: 100%;
             top: 50%;
             transform: translateY(-50%);
             background-color: rgba(0, 0, 0, 0.8);
@@ -271,7 +270,7 @@
 
         <h2>Buildings</h2>
         <div id="building-list" style="height: 45vh; overflow-y: auto;">
-            <div class="building" id="clicker-building" onclick="buyBuilding('clicker')" onmouseover="showBuildingInfo('clicker')" onmouseout="hideBuildingInfo('clicker')">
+            <div class="building" id="clicker-building" onclick="buyBuilding('clicker')">
                 <span id="clicker-cost">15 score</span>
                 <span id="clicker-count" style="font-size: larger;">3</span>
                 <div class="building-info" id="clicker-info"></div>
@@ -877,6 +876,13 @@
         document.getElementById('leaderboard-toggle').addEventListener('click', () => {
             const leaderboardSection = document.getElementById('leaderboard-section');
             leaderboardSection.style.display = leaderboardSection.style.display === 'none' ? 'block' : 'none';
+        });
+
+        document.querySelectorAll('.building').forEach(building => {
+            building.addEventListener('mouseover', () => {
+                const type = building.id.split('-')[0];
+                showBuildingInfo(type);
+            });
         });
     </script>
 </body>
