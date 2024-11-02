@@ -561,12 +561,12 @@
                 <p>Total CPS: ${totalCPS}</p>
                 <p>All Time Score: ${allTimeScore}</p>
             `;
-            infoDiv.style.display = 'block';
+            infoDiv.style.display = 'block'; // Show the info box
         }
 
         function hideBuildingInfo(type) {
             const infoDiv = document.getElementById(`${type}-info`);
-            infoDiv.style.display = 'none';
+            infoDiv.style.display = 'none'; // Hide the info box
         }
 
         // Update all-time score when buying a building
