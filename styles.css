@@ -27,6 +27,7 @@ body {
     background-color: #f9f9f9;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     border-radius: 8px;
+    position: relative;
 }
 
 .upgrade {
@@ -140,7 +141,7 @@ button {
 .building-info {
     display: none; /* Initially hidden */
     position: absolute; /* Position it absolutely */
-    left: -260px; /* Adjust this value to position it outside the building */
+    left: calc(-260px - 10px); /* Position it outside the building section */
     top: 50%; /* Center it vertically */
     transform: translateY(-50%); /* Center it vertically */
     background-color: rgba(0, 0, 0, 0.8);
@@ -155,7 +156,7 @@ button {
 .building-info::before {
     content: '';
     position: absolute;
-    left: -10px;
+    left: -10px; /* Adjust this value to position the arrow */
     top: 50%;
     transform: translateY(-50%);
     border-width: 10px;
