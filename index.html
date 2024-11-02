@@ -100,7 +100,7 @@
 
     <div id="gambling-section">
         <h2>Nut Gambling</h2>
-        <div id="exact-nuts">Exact Nuts: <span id="score-display">0</span></div>
+        <div id="current-score">Current Score: <span id="score-display">0</span></div>
         <hr>
         <div class="gamble-option">
             <div>25% chance to get 2x</div>
@@ -146,6 +146,7 @@
     <div id="leaderboard-section" style="display: none; position: fixed; bottom: 60px; left: 20px; width: 300px; height: 300px; overflow-y: auto; background-color: #f9f9f9; border: 1px solid #ccc; padding: 10px; border-radius: 8px; box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);">
         <h2>Leaderboard</h2>
         <ol id="leaderboard-list"></ol>
+        <div id="next-update">Next Update In: <span id="countdown-timer">60</span> seconds</div>
     </div>
 
     <script>
@@ -312,8 +313,7 @@
         }
 
         function updateScoreDisplay() {
-            scoreDisplay.textContent = `Score: ${formatNumber(score)}`;
-            scorePerSecondDisplay.textContent = `Score per Second: ${formatNumber(scorePerSecond)}`;
+            scoreDisplay.textContent = formatNumber(score); // Update the score display with abbreviation
         }
 
         clicker.addEventListener('click', () => {
@@ -448,8 +448,7 @@
 
         // Update score display
         function updateScoreDisplay() {
-            scoreDisplay.textContent = `Score: ${formatNumber(score)}`;
-            scorePerSecondDisplay.textContent = `Score per Second: ${formatNumber(scorePerSecond)}`;
+            scoreDisplay.textContent = formatNumber(score); // Update the score display with abbreviation
         }
 
         // Increment score and update stats every second
@@ -514,7 +513,7 @@
                 alert(`L you just lost ${betAmount} score`);
             }
 
-            scoreDisplay.textContent = `Score: ${score}`;
+            updateScoreDisplay(); // Ensure score is updated after gambling
         }
 
         const buildingDescriptions = {
@@ -644,6 +643,53 @@
                 const type = building.id.split('-')[0];
                 showBuildingInfo(type);
             });
+        });
+
+        let countdownInterval;
+
+        // Function to fetch the leaderboard and update the countdown timer
+        async function fetchLeaderboard() {
+            const response = await fetch('http://localhost:3000/leaderboard');
+            const data = await response.json();
+            const leaderboard = data.leaderboard;
+            const nextUpdateTime = new Date(data.nextUpdateTime);
+
+            const leaderboardList = document.getElementById('leaderboard-list');
+            leaderboardList.innerHTML = '';
+
+            leaderboard.forEach((user, index) => {
+                const li = document.createElement('li');
+                li.textContent = `${index + 1}. User ${user.id}: ${formatNumber(user.score)}`;
+                leaderboardList.appendChild(li);
+            });
+
+            // Start the countdown timer
+            startCountdown(nextUpdateTime);
+        }
+
+        // Function to start the countdown timer
+        function startCountdown(nextUpdateTime) {
+            clearInterval(countdownInterval); // Clear any existing countdown
+
+            const updateInterval = setInterval(() => {
+                const now = new Date();
+                const timeDiff = Math.floor((nextUpdateTime - now) / 1000); // Time difference in seconds
+
+                if (timeDiff <= 0) {
+                    clearInterval(updateInterval);
+                    document.getElementById('countdown-timer').textContent = '0';
+                    fetchLeaderboard(); // Fetch leaderboard again when time is up
+                } else {
+                    document.getElementById('countdown-timer').textContent = timeDiff;
+                }
+            }, 1000);
+        }
+
+        // Call fetchLeaderboard when the leaderboard is toggled
+        document.getElementById('leaderboard-toggle').addEventListener('click', () => {
+            const leaderboardSection = document.getElementById('leaderboard-section');
+            leaderboardSection.style.display = leaderboardSection.style.display === 'none' ? 'block' : 'none';
+            fetchLeaderboard(); // Update leaderboard display
         });
     </script>
 </body>
