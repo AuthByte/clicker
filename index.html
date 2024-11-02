@@ -645,9 +645,6 @@
             });
         });
 
-        let countdownInterval;
-
-        // Function to fetch the leaderboard and update the countdown timer
         async function fetchLeaderboard() {
             const response = await fetch('http://localhost:3000/leaderboard');
             const data = await response.json();
@@ -667,22 +664,15 @@
             startCountdown(nextUpdateTime);
         }
 
-        // Function to start the countdown timer
-        function startCountdown(nextUpdateTime) {
-            clearInterval(countdownInterval); // Clear any existing countdown
-
-            const updateInterval = setInterval(() => {
-                const now = new Date();
-                const timeDiff = Math.floor((nextUpdateTime - now) / 1000); // Time difference in seconds
-
-                if (timeDiff <= 0) {
-                    clearInterval(updateInterval);
-                    document.getElementById('countdown-timer').textContent = '0';
-                    fetchLeaderboard(); // Fetch leaderboard again when time is up
-                } else {
-                    document.getElementById('countdown-timer').textContent = timeDiff;
-                }
-            }, 1000);
+        function updateLeaderboard(userId, score) {
+            fetch('http://localhost:3000/leaderboard', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ userId, score }),
+            })
+            .then(() => fetchLeaderboard());
         }
 
         // Call fetchLeaderboard when the leaderboard is toggled
