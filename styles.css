@@ -1,0 +1,239 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #f0f0f0;
+}
+
+#main-content {
+    text-align: center;
+    margin: 0 auto;
+    z-index: 1;
+}
+
+#building-section {
+    width: 300px;
+    height: 90vh;
+    overflow: hidden;
+    border: 1px solid #ccc;
+    padding: 10px;
+    position: fixed;
+    right: 20px;
+    top: 20px;
+    background-color: #f9f9f9;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+}
+
+.upgrade {
+    margin-bottom: 10px;
+    text-align: center;
+}
+
+.upgrade img {
+    width: 100px;
+    height: 100px;
+}
+
+#upgrade-section, #building-list {
+    overflow-y: auto;
+}
+
+.building {
+    position: relative;
+    margin-bottom: 10px;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    background-color: #fff;
+    cursor: pointer;
+}
+
+.building:hover {
+    background-color: #f0f0f0;
+}
+
+button {
+    cursor: pointer;
+}
+
+.toggle-button {
+    position: fixed;
+    top: 50%;
+    transform: translateY(-50%);
+    background-color: #ccc;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    padding: 5px;
+    z-index: 1000;
+}
+
+#building-toggle {
+    right: 0;
+}
+
+#gambling-toggle {
+    left: 0;
+}
+
+#gambling-section {
+    width: 300px;
+    height: auto;
+    overflow-y: auto;
+    border: 1px solid #ccc;
+    padding: 20px;
+    position: fixed;
+    left: 20px;
+    top: 20px;
+    background-color: #f9f9f9;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    display: none; /* Initially hidden */
+}
+
+.gamble-option {
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.gamble-option button {
+    width: 100%;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    background-color: #ccc;
+    transition: background-color 0.3s;
+}
+
+.gamble-option button:hover {
+    background-color: #bbb;
+}
+
+#clicker {
+    max-width: 250px;
+    max-height: 250px; /* Adjust the height as needed */
+    width: auto;
+    height: auto;
+    cursor: pointer;
+    transition: transform 0.2s;
+}
+
+@keyframes bounceInOut {
+    0%, 100% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.2);
+    }
+}
+
+.bounce {
+    animation: bounceInOut 0.4s ease-in-out;
+}
+
+.building-info {
+    display: none;
+    position: absolute;
+    left: -260px; /* Position it to the left */
+    top: 50%;
+    transform: translateY(-50%);
+    background-color: rgba(0, 0, 0, 0.8);
+    color: white;
+    padding: 15px;
+    border-radius: 5px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+    z-index: 1000;
+    width: 250px; /* Ensure this width fits within the viewport */
+    pointer-events: none;
+}
+
+.building-info::before {
+    content: '';
+    position: absolute;
+    left: -10px;
+    top: 50%;
+    transform: translateY(-50%);
+    border-width: 10px;
+    border-style: solid;
+    border-color: transparent rgba(0, 0, 0, 0.8) transparent transparent;
+}
+
+.building-info p {
+    margin: 5px 0;
+    font-size: 14px;
+    line-height: 1.4;
+}
+
+#building-list {
+    height: 45vh; /* Adjust height as needed */
+    overflow-y: auto; /* Allow vertical scrolling */
+    overflow-x: hidden; /* Prevent horizontal scrolling */
+}
+
+#upgrade-section {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px; /* Space between upgrades */
+}
+
+.upgrade {
+    flex: 0 0 auto; /* Prevents shrinking */
+}
+
+.upgrade img {
+    width: 50px;
+    height: 50px;
+    display: block;
+}
+
+#notification {
+    display: none;
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px;
+    border-radius: 5px;
+    z-index: 1000;
+}
+
+#stats-section, #leaderboard-section {
+    display: none;
+    position: fixed;
+    bottom: 60px;
+    left: 20px;
+    width: 300px;
+    height: 300px;
+    overflow-y: auto;
+    background-color: #f9f9f9;
+    border: 1px solid #ccc;
+    padding: 10px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+#stats-toggle, #leaderboard-toggle {
+    position: fixed;
+    bottom: 20px;
+    background-color: #ccc;
+    color: black;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+#stats-toggle {
+    left: 100px;
+}
+
+#leaderboard-toggle {
+    left: 180px;
+}
