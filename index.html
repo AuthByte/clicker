@@ -210,6 +210,8 @@
 
         // Function to format numbers with abbreviations and words
         function formatNumber(num) {
+            if (num < 1000) return num.toString(); // Ensure numbers less than 1000 are returned as is
+
             const suffixes = [
                 { value: 1e33, word: 'decillion' },
                 { value: 1e30, word: 'nonillion' },

@@ -140,9 +140,9 @@ button {
 .building-info {
     display: none;
     position: absolute;
-    left: -260px; /* Position it to the left */
+    left: -300px; /* Position it to the left */
     top: 50%;
-    transform: translateY(-50%);
+    transform: translateY(-50%); /* Center it vertically */
     background-color: rgba(0, 0, 0, 0.8);
     color: white;
     padding: 15px;
@@ -151,6 +151,8 @@ button {
     z-index: 1000;
     width: 250px; /* Ensure this width fits within the viewport */
     pointer-events: none;
+    max-width: 250px; /* Prevent it from being too wide */
+    overflow: hidden; /* Prevent overflow */
 }
 
 .building-info::before {
