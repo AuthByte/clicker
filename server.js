@@ -1,4 +1,7 @@
 require('dotenv').config();
+const express = require('express');
+const mongoose = require('mongoose');
+const cors = require('cors');
 
 const { MongoClient, ServerApiVersion } = require('mongodb');
 const uri = process.env.MONGODB_URI;
@@ -44,7 +47,7 @@ app.post('/save-score', async (req, res) => {
         const updatedUser = await User.findOneAndUpdate(
             { userId },
             { score },
-            { upsert: true, new: true } // Create if not exists
+            { upsert: true, new: true }
         );
 
         console.log(`Data saved: { user: ${updatedUser.userId}, score: ${updatedUser.score} }`);
@@ -63,3 +66,5 @@ app.get('/leaderboard', async (req, res) => {
         res.status(500).send('Error retrieving leaderboard');
     }
 });
+
+app.use(express.json());
