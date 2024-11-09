@@ -68,3 +68,4 @@ app.get('/leaderboard', async (req, res) => {
 });
 
 app.use(express.json());
+app.use(cors());
