@@ -243,3 +243,16 @@ button {
 #leaderboard-toggle {
     left: 180px;
 }
+
+#building-toggle {
+    left: 10px;
+}
+
+#gambling-toggle {
+    right: 10px;
+}
+
+#score {
+    font-size: 24px;
+    margin: 10px 0;
+}
