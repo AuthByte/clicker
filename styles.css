@@ -1,12 +1,13 @@
 body {
-    font-family: Arial, sans-serif;
+    font-family: 'Press Start 2P', cursive;
     margin: 0;
     padding: 0;
     display: flex;
     justify-content: center;
     align-items: center;
     height: 100vh;
-    background-color: #f0f0f0;
+    background-color: #1e1e1e;
+    color: #00ff00;
 }
 
 #main-content {
@@ -19,15 +20,15 @@ body {
     width: 300px;
     height: 90vh;
     overflow: hidden;
-    border: 1px solid #ccc;
+    border: 1px solid #444;
     padding: 10px;
     position: fixed;
     right: 20px;
     top: 20px;
-    background-color: #f9f9f9;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    border-radius: 8px;
-    position: relative;
+    background-color: #2a2a2a;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    border-radius: 15px;
+    transition: transform 0.3s ease;
 }
 
 .upgrade {
@@ -48,53 +49,53 @@ body {
     position: relative;
     margin-bottom: 10px;
     padding: 10px;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-    background-color: #fff;
+    border: 1px solid #555;
+    border-radius: 10px;
+    background-color: #3a3a3a;
     cursor: pointer;
+    transition: background-color 0.3s;
 }
 
 .building:hover {
-    background-color: #f0f0f0;
+    background-color: #444;
 }
 
 button {
     cursor: pointer;
+    border-radius: 10px;
 }
 
 .toggle-button {
     position: fixed;
     top: 50%;
     transform: translateY(-50%);
-    background-color: #ccc;
+    background-color: #444;
     border: none;
-    border-radius: 5px;
+    border-radius: 10px;
     cursor: pointer;
-    padding: 5px;
+    padding: 10px;
     z-index: 1000;
+    transition: background-color 0.3s;
 }
 
-#building-toggle {
-    right: 0;
-}
-
-#gambling-toggle {
-    left: 0;
+.toggle-button:hover {
+    background-color: #555;
 }
 
 #gambling-section {
     width: 300px;
     height: auto;
     overflow-y: auto;
-    border: 1px solid #ccc;
+    border: 1px solid #444;
     padding: 20px;
     position: fixed;
     left: 20px;
     top: 20px;
-    background-color: #f9f9f9;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    border-radius: 8px;
-    display: none; /* Initially hidden */
+    background-color: #2a2a2a;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    border-radius: 15px;
+    display: none;
+    transition: transform 0.3s ease;
 }
 
 .gamble-option {
@@ -106,19 +107,19 @@ button {
     width: 100%;
     padding: 10px;
     border: none;
-    border-radius: 5px;
+    border-radius: 10px;
     cursor: pointer;
-    background-color: #ccc;
+    background-color: #444;
     transition: background-color 0.3s;
 }
 
 .gamble-option button:hover {
-    background-color: #bbb;
+    background-color: #555;
 }
 
 #clicker {
     max-width: 250px;
-    max-height: 250px; /* Adjust the height as needed */
+    max-height: 250px;
     width: auto;
     height: auto;
     cursor: pointer;
@@ -139,24 +140,24 @@ button {
 }
 
 .building-info {
-    display: none; /* Initially hidden */
-    position: absolute; /* Position it absolutely */
-    left: calc(-260px - 10px); /* Position it outside the building section */
-    top: 50%; /* Center it vertically */
-    transform: translateY(-50%); /* Center it vertically */
+    display: none;
+    position: absolute;
+    left: calc(-260px - 10px);
+    top: 50%;
+    transform: translateY(-50%);
     background-color: rgba(0, 0, 0, 0.8);
     color: white;
     padding: 15px;
-    border-radius: 5px;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
     z-index: 1000;
-    width: 250px; /* Set a width */
+    width: 250px;
 }
 
 .building-info::before {
     content: '';
     position: absolute;
-    left: -10px; /* Adjust this value to position the arrow */
+    left: -10px;
     top: 50%;
     transform: translateY(-50%);
     border-width: 10px;
@@ -171,19 +172,19 @@ button {
 }
 
 #building-list {
-    height: 45vh; /* Adjust height as needed */
-    overflow-y: auto; /* Allow vertical scrolling */
-    overflow-x: hidden; /* Prevent horizontal scrolling */
+    height: 45vh;
+    overflow-y: auto;
+    overflow-x: hidden;
 }
 
 #upgrade-section {
     display: flex;
     flex-wrap: wrap;
-    gap: 10px; /* Space between upgrades */
+    gap: 10px;
 }
 
 .upgrade {
-    flex: 0 0 auto; /* Prevents shrinking */
+    flex: 0 0 auto;
 }
 
 .upgrade img {
@@ -200,7 +201,7 @@ button {
     background-color: #4CAF50;
     color: white;
     padding: 10px;
-    border-radius: 5px;
+    border-radius: 10px;
     z-index: 1000;
 }
 
@@ -212,22 +213,27 @@ button {
     width: 300px;
     height: 300px;
     overflow-y: auto;
-    background-color: #f9f9f9;
-    border: 1px solid #ccc;
+    background-color: #2a2a2a;
+    border: 1px solid #444;
     padding: 10px;
-    border-radius: 8px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    border-radius: 15px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
 }
 
 #stats-toggle, #leaderboard-toggle {
     position: fixed;
     bottom: 20px;
-    background-color: #ccc;
+    background-color: #444;
     color: black;
     padding: 10px;
     border: none;
-    border-radius: 5px;
+    border-radius: 10px;
     cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+#stats-toggle:hover, #leaderboard-toggle:hover {
+    background-color: #555;
 }
 
 #stats-toggle {
