@@ -127,6 +127,14 @@
         <div id="building-cps-stats"></div>
     </div>
 
+    <div id="leaderboard" style="position: fixed; bottom: 60px; left: 350px; width: 300px; height: 300px; overflow-y: auto; background-color: #f9f9f9; border: 1px solid #ccc; padding: 10px; border-radius: 8px; box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); display: none;">
+        <!-- Leaderboard will be populated here -->
+    </div>
+
+    <button id="leaderboard-toggle" style="position: fixed; bottom: 20px; left: 200px; background-color: #ccc; color: black; padding: 10px; border: none; border-radius: 5px; cursor: pointer;">
+        Toggle Leaderboard
+    </button>
+
     <script>
         let score = 0;
         let scorePerSecond = 0;
@@ -340,6 +348,15 @@
             setTimeout(() => {
                 notification.style.display = 'none';
             }, 3000); // Hide after 3 seconds
+
+            // Save score to MongoDB
+            fetch('/save-score', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ userId, score })
+            });
         }
 
         let allTimeScore = 0;
@@ -564,6 +581,27 @@
         }
 
         document.getElementById('user-id-display').textContent = `User ${userId}'s Factory`;
+
+        async function fetchLeaderboard() {
+            const response = await fetch('/leaderboard');
+            const leaderboard = await response.json();
+
+            const leaderboardDisplay = document.getElementById('leaderboard');
+            leaderboardDisplay.innerHTML = '<h2>Global Leaderboard</h2>';
+            leaderboard.forEach(user => {
+                const userDiv = document.createElement('div');
+                userDiv.textContent = `User ${user.userId}: ${user.score}`;
+                leaderboardDisplay.appendChild(userDiv);
+            });
+        }
+
+        // Call this function when the game loads
+        fetchLeaderboard();
+
+        document.getElementById('leaderboard-toggle').addEventListener('click', () => {
+            const leaderboard = document.getElementById('leaderboard');
+            leaderboard.style.display = leaderboard.style.display === 'none' ? 'block' : 'none';
+        });
     </script>
 </body>
 </html>
