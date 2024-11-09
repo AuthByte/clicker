@@ -356,6 +356,12 @@
                     'Content-Type': 'application/json'
                 },
                 body: JSON.stringify({ userId, score })
+            }).then(response => {
+                if (response.ok) {
+                    console.log(`Score saved for user ${userId}: ${score}`);
+                } else {
+                    console.error('Failed to save score');
+                }
             });
         }
 
@@ -590,7 +596,7 @@
             leaderboardDisplay.innerHTML = '<h2>Global Leaderboard</h2>';
             leaderboard.forEach(user => {
                 const userDiv = document.createElement('div');
-                userDiv.textContent = `User ${user.userId}: ${user.score}`;
+                userDiv.textContent = `User ${user.userId}: ${formatNumber(user.score)}`;
                 leaderboardDisplay.appendChild(userDiv);
             });
         }

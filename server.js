@@ -26,22 +26,28 @@ async function run() {
 }
 run().catch(console.dir);
 const mongoose = require('mongoose');
-const User = require('./User'); // Import the User model
 
-mongoose.connect(process.env.MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: true })
-    .then(() => console.log('MongoDB connected'))
-    .catch(err => console.error('MongoDB connection error:', err));
+const userSchema = new mongoose.Schema({
+    userId: { type: String, required: true, unique: true },
+    score: { type: Number, default: 0 }
+});
+
+const User = mongoose.model('User', userSchema);
+
+module.exports = User;
 
 // Save user score
 app.post('/save-score', async (req, res) => {
     const { userId, score } = req.body;
 
     try {
-        await User.findOneAndUpdate(
+        const updatedUser = await User.findOneAndUpdate(
             { userId },
             { score },
             { upsert: true, new: true } // Create if not exists
         );
+
+        console.log(`Data saved: { user: ${updatedUser.userId}, score: ${updatedUser.score} }`);
         res.send('Score saved successfully');
     } catch (err) {
         res.status(500).send('Error saving score');
